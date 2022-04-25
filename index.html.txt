@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/20c5629a29.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- This is the dynamic and responsive code for sample Movie-Ninja Website,
+    you can view this webpage in any device display sizes. -->
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://thumbs.dreamstime.com/b/movie-time-logo-white-background-movie-time-logo-white-background-135314604.jpg" class="food-munch-logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-link active" id="navItem1" href="#whyNinjaContainer">
+                        Why Movie-Ninja?
+                        <span class="sr-only">(current)</span>
+                    </a>
+
+                    <a class="nav-link nav-color" href="#moviesTopContainer" id="navItem3">All Movies</a>
+                    <a class="nav-link nav-color" href="#trendingTopContainer" id="navItem3">Trending Movies</a>
+                    <a class="nav-link nav-color" href="#followUsSection" id="navItem4">Follow Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Backgorund(bg) Container-->
+    <div class="bg-container">
+        <!-- Intro card for Movie-Ninja Webpage-->
+        <div class="intro-card">
+            <div class="intro-card-first-container">
+                <h1 class="heading1">Let's switch ON Entertainment mode with <span class="ninja-name">Movie-Ninja</span></h1>
+                <p class="para1">Many movies are waiting for your presence</p>
+                <p class="para2"> Enjoy your Ride by watching high quality Movies...!!</p>
+            </div>
+            <div class="intro-card-second-container">
+                <select id="languageChangeSelector" class="selector-class">
+                    <option value="en" class="selector-option-class" selected disabled>Language</option>
+                    <option value="en" class="selector-option-class">English</option>
+                    <option value="fr" class="selector-option-class">French</option>
+                    <option value="ko" class="selector-option-class">Korean</option>
+                </select>
+                <select id="usersOption" class="selector-class">
+                    <option value="en" class="selector-option-class" selected disabled>Filter By</option>
+                    <option value="highlyrated" class="selector-option-class">Highly Rated</option>
+                    <option value="recent" class="selector-option-class">Recent</option>
+
+                </select>
+
+                <div class="search-container">
+                    <input type="search" placeholder="search your movie..." class="search-input" id="searchInput" />
+                    <img src="https://freerangestock.com/sample/119161/search-icon-vector.jpg" class="search-image" />
+                </div>
+            </div>
+        </div>
+        <!-- This container will view result based on your result-->
+        <div id="searchMovieTopContainer">
+            <div id="searchMovieContainer">
+
+            </div>
+
+        </div>
+        <!-- Container for trending movies display-->
+        <div class="trending-top-container" id="trendingTopContainer">
+            <h1 class="result-class">Trending Movies</h1>
+            <div id="trendingContainer" class="movies-container">
+
+            </div>
+        </div>
+        <!-- Container for to display All movies-->
+        <div class="movies-top-container" id="moviesTopContainer">
+            <h1 class="result-class">All Movies</h1>
+            <div id="moviesContainer" class="movies-container">
+
+            </div>
+
+        </div>
+
+        <!-- Container for why ninja section -->
+        <div class="why-ninja-container" id="whyNinjaContainer">
+            <h1 class="result-class">Why Movie-Ninja</h1>
+            <div class="about-container">
+                <p>
+                    Ninja Video: Watch exclusive Ninja Originals
+                    and thousands of popular movies and TV shows
+                    — all at no extra cost.
+                    Watch at home or on the go with practically any device.
+                </p>
+                <p>
+                    Ninja Video Channels: Watch your favorite shows and movies
+                    from discovery+,
+                    Paramount+, EPIX, NBA League Pass, and STARZ channels —
+                    no cable required, cancel anytime and no additional
+                    apps to download. $4.99–$14.99/month for Ninja members.</p>
+                <p>
+                    Ninja Music for Ninja members: Access 2 million songs, ad-free,
+                    plus millions of podcast episodes — included with your Ninja membership.
+                    Listen on any Echo device and take your music and podcasts anywhere
+                    with offline listening.
+                </p>
+
+
+            </div>
+
+        </div>
+        <!-- Container for Follow Us section -->
+        <div class="follow-us-section pt-5 pb-5" id="followUsSection">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="follow-us-section-heading">Follow Us</h1>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-row justify-content-center">
+                            <div class="follow-us-icon-container">
+                                <i class="fab fa-twitter icon"></i>
+                            </div>
+                            <div class="follow-us-icon-container">
+                                <i class="fab fa-instagram icon"></i>
+                            </div>
+                            <div class="follow-us-icon-container">
+                                <i class="fab fa-facebook icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

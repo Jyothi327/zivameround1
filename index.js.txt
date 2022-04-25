@@ -1,0 +1,321 @@
+// Getting all Elements in the HTML DOM by using Id's of those.
+let moviesContainerEl = document.getElementById("moviesContainer");
+let trendingContainerEl = document.getElementById("trendingContainer");
+let searchMovieContainerEl = document.getElementById("searchMovieContainer");
+let searchMovieTopContainerEl = document.getElementById("searchMovieTopContainer");
+let languageChangeSelectorEl = document.getElementById("languageChangeSelector");
+let usersOptionEl = document.getElementById("usersOption");
+let searchInputEl = document.getElementById("searchInput");
+let moviesSearchEl = document.getElementById("moviesSearch");
+let moviesList = [];
+let movies = [];
+let selectedLanguage = ""; //default value of language option
+
+//function to view all movies section
+function createAndAppendResult(result) {
+    let movieWhiteContainerEl = document.createElement("div");
+    movieWhiteContainerEl.classList.add("movie-white-container");
+    const {
+        title,
+        poster_path
+    } = result;
+    let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+    let movieCardEl = document.createElement("div");
+    movieCardEl.classList.add("movie-card");
+    movieCardEl.style.backgroundImage = `url(${bgImage})`;
+
+    let titleEl = document.createElement("p");
+    titleEl.classList.add("title-class");
+    titleEl.textContent = title;
+    movieWhiteContainerEl.appendChild(movieCardEl);
+    movieWhiteContainerEl.appendChild(titleEl);
+    moviesContainerEl.appendChild(movieWhiteContainerEl);
+
+}
+
+//function for looping the movies got as response.
+function displayMovies(searchResults) {
+
+    for (let result of searchResults) {
+        createAndAppendResult(result);
+    }
+
+}
+
+//function for showing movies in trending container
+function createAndAppendResultInTrending(result) {
+    let movieWhiteContainerEl = document.createElement("div");
+    movieWhiteContainerEl.classList.add("movie-white-container");
+    const {
+        title,
+        poster_path
+    } = result;
+    let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+    let movieCardEl = document.createElement("div");
+    movieCardEl.classList.add("movie-card");
+    movieCardEl.style.backgroundImage = `url(${bgImage})`;
+    let titleEl = document.createElement("p");
+    titleEl.textContent = title;
+    titleEl.classList.add("title-class");
+    movieWhiteContainerEl.appendChild(movieCardEl);
+    movieWhiteContainerEl.appendChild(titleEl);
+    trendingContainerEl.appendChild(movieWhiteContainerEl);
+
+}
+
+//function for checking whether movie is trending or not
+function trendingResult(result) {
+    if (result.popularity > 1000) { //condition to check popularity
+        return result; // movie with popularity more than 1000 will return as result
+    }
+}
+
+//shuffling the trending movies everytime to make user to view different movies at each refresh
+function displayTrending(searchResults) {
+    let sortedByVoteCount = searchResults.filter(eachResult => trendingResult(eachResult));
+    for (let i = sortedByVoteCount.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [sortedByVoteCount[i], sortedByVoteCount[j]] = [sortedByVoteCount[j], sortedByVoteCount[i]];
+    }
+    for (let result of sortedByVoteCount) {
+        createAndAppendResultInTrending(result);
+    }
+}
+
+//function to get movie list which match to user entered input in search bar
+function getMovie(movie) {
+    let searchInputValue = searchInputEl.value;
+    if (movie.title.toLowerCase().includes(searchInputValue.toLowerCase())) {
+        return movie;
+    }
+}
+
+//function to display search results.
+function displaySearchMovie(event) {
+    if (event.key === "Enter") {
+        searchMovieTopContainerEl.innerHTML = "";
+        searchMovieContainerEl.innerHTML = "";
+        searchMovieTopContainerEl.classList.add("trending-top-container");
+        searchMovieContainerEl.classList.add("movies-container");
+        movies = moviesList.filter(eachMovie => getMovie(eachMovie));
+        if (!(movies.length === 0)) { // if there is atleast one movie, we can view
+            let yourResultsEl = document.createElement("h1");
+            yourResultsEl.textContent = "Your Results";
+            yourResultsEl.classList.add("result-class");
+            searchMovieTopContainerEl.appendChild(yourResultsEl);
+            for (let result of movies) {
+
+                let movieWhiteContainerEl = document.createElement("div");
+                movieWhiteContainerEl.classList.add("movie-white-container");
+                const {
+                    title,
+                    poster_path
+                } = result;
+                let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+                let movieCardEl = document.createElement("div");
+                movieCardEl.classList.add("movie-card");
+                movieCardEl.style.backgroundImage = `url(${bgImage})`;
+                let titleEl = document.createElement("p");
+                titleEl.textContent = title;
+                titleEl.classList.add("title-class");
+                movieWhiteContainerEl.appendChild(movieCardEl);
+                movieWhiteContainerEl.appendChild(titleEl);
+                searchMovieContainerEl.appendChild(movieWhiteContainerEl);
+            }
+            searchMovieTopContainerEl.appendChild(searchMovieContainerEl);
+            searchInputEl.value = "";
+        } else { //no movie found with entered value
+            let yourResultsEl = document.createElement("h1");
+            yourResultsEl.textContent = "Your search have no results, Please try again";
+            yourResultsEl.classList.add("result-class");
+            searchMovieTopContainerEl.appendChild(yourResultsEl);
+        }
+    }
+}
+
+//function to give movies with selected language
+function getMovieBySelect(movie) {
+    if (movie.original_language.toLowerCase().includes(selectedLanguage.toLowerCase())) {
+        return movie;
+    }
+}
+
+//displaying movies with new container
+function displaySelectedLanguageFilms(event) {
+    selectedLanguage = event.target.value;
+
+    let l = "";
+    if (selectedLanguage === "en") {
+        l = "English";
+    } else if (selectedLanguage === "fr") {
+        l = "French";
+    } else {
+        l = "Korean";
+    }
+    searchMovieTopContainerEl.innerHTML = "";
+    searchMovieContainerEl.innerHTML = "";
+
+    searchMovieTopContainerEl.classList.add("trending-top-container");
+    searchMovieContainerEl.classList.add("movies-container");
+    movies = moviesList.filter(eachMovie => getMovieBySelect(eachMovie));
+    let yourResultsEl = document.createElement("h1");
+    yourResultsEl.textContent = "Movies in " + l + " Language";
+    yourResultsEl.classList.add("result-class");
+    searchMovieTopContainerEl.appendChild(yourResultsEl);
+    for (let result of movies) {
+
+        let movieWhiteContainerEl = document.createElement("div");
+        movieWhiteContainerEl.classList.add("movie-white-container");
+        const {
+            title,
+            poster_path
+        } = result;
+        let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+        let movieCardEl = document.createElement("div");
+        movieCardEl.classList.add("movie-card");
+        movieCardEl.style.backgroundImage = `url(${bgImage})`;
+        let titleEl = document.createElement("p");
+        titleEl.textContent = title;
+        titleEl.classList.add("title-class");
+        movieWhiteContainerEl.appendChild(movieCardEl);
+        movieWhiteContainerEl.appendChild(titleEl);
+        searchMovieContainerEl.appendChild(movieWhiteContainerEl);
+    }
+    searchMovieTopContainerEl.appendChild(searchMovieContainerEl);
+
+}
+
+//function to get recent movie, here i used this current year as conditional parameter
+function getrecentMovie(movie) {
+    let d = new Date();
+    let recentYear = d.getFullYear();
+    let {
+        release_date
+    } = movie;
+    let r = release_date.substr(0, 4);
+    if (r == recentYear) {
+        return movie;
+    }
+}
+//function to give highly rated movie
+function getHighlyRatedmovie(movie) {
+    if (movie.vote_average > 7) {
+        return movie;
+    }
+}
+
+//function to generate result filetred by highlyRated or Recent
+function usersOption(event) {
+    if (event.target.value === "recent") { //if user want recent films
+        const recentMoviesList = moviesList.filter(eachMovie => getrecentMovie(eachMovie));
+
+        searchMovieTopContainerEl.innerHTML = "";
+        searchMovieContainerEl.innerHTML = "";
+
+        searchMovieTopContainerEl.classList.add("trending-top-container");
+        searchMovieContainerEl.classList.add("movies-container");
+        movies = moviesList.filter(eachMovie => getrecentMovie(eachMovie));
+        // filtering recent movies by calling getrecentMovie function
+        let yourResultsEl = document.createElement("h1");
+        yourResultsEl.textContent = "Recent Movies in this Year";
+        yourResultsEl.classList.add("result-class");
+        searchMovieTopContainerEl.appendChild(yourResultsEl);
+        for (let result of recentMoviesList) {
+
+
+            let movieWhiteContainerEl = document.createElement("div");
+            movieWhiteContainerEl.classList.add("movie-white-container");
+            const {
+                title,
+                release_date,
+                poster_path
+            } = result;
+            let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+            let movieCardEl = document.createElement("div");
+            movieCardEl.classList.add("movie-card");
+            movieCardEl.style.backgroundImage = `url(${bgImage})`;
+            let titleEl = document.createElement("p");
+            titleEl.textContent = title;
+            titleEl.classList.add("title-class");
+            let releaseDateEl = document.createElement("p");
+            releaseDateEl.textContent = release_date;
+            releaseDateEl.classList.add("title-class");
+            movieWhiteContainerEl.appendChild(movieCardEl);
+            movieWhiteContainerEl.appendChild(titleEl);
+            movieWhiteContainerEl.appendChild(releaseDateEl);
+            searchMovieContainerEl.appendChild(movieWhiteContainerEl);
+        }
+        searchMovieTopContainerEl.appendChild(searchMovieContainerEl);
+
+    } else if (event.target.value === "highlyrated") {
+        const highlyRatedMoviesList = moviesList.filter(eachMovie => getHighlyRatedmovie(eachMovie));
+        const sortedhighlyRatedMoviesList = highlyRatedMoviesList.sort((a, b) => b.vote_average - a.vote_average);
+        //sorting movies list by vote average attribute
+        searchMovieTopContainerEl.innerHTML = "";
+        searchMovieContainerEl.innerHTML = "";
+
+        searchMovieTopContainerEl.classList.add("trending-top-container");
+        searchMovieContainerEl.classList.add("movies-container");
+        movies = moviesList.filter(eachMovie => getHighlyRatedmovie(eachMovie));
+        let yourResultsEl = document.createElement("h1");
+        yourResultsEl.textContent = "Highly Rated Movies";
+        yourResultsEl.classList.add("result-class");
+        searchMovieTopContainerEl.appendChild(yourResultsEl);
+        for (let result of highlyRatedMoviesList) {
+
+
+            let movieWhiteContainerEl = document.createElement("div");
+            movieWhiteContainerEl.classList.add("movie-white-container");
+            const {
+                title,
+                vote_average,
+                poster_path
+            } = result;
+            let bgImage = "https://image.tmdb.org/t/p/w500" + poster_path;
+            let movieCardEl = document.createElement("div");
+            movieCardEl.classList.add("movie-card");
+            movieCardEl.style.backgroundImage = `url(${bgImage})`;
+            let titleEl = document.createElement("p");
+            titleEl.textContent = title;
+            titleEl.classList.add("title-class");
+            let releaseDateEl = document.createElement("p");
+            releaseDateEl.textContent = vote_average + "/10";
+            releaseDateEl.classList.add("title-class");
+            movieWhiteContainerEl.appendChild(movieCardEl);
+            movieWhiteContainerEl.appendChild(titleEl);
+            movieWhiteContainerEl.appendChild(releaseDateEl);
+            searchMovieContainerEl.appendChild(movieWhiteContainerEl);
+        }
+        searchMovieTopContainerEl.appendChild(searchMovieContainerEl);
+
+    }
+}
+
+//defining GET Method
+let options = {
+    method: "GET"
+};
+//Defining Url with my generated api key
+let url = "https://api.themoviedb.org/3/movie/popular?api_key=3490861b0c3e05900cd169235c4240ff&language=en-US&page=1";
+
+//fetch call 
+fetch(url, options)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(jsonData) {
+        const {
+            results
+        } = jsonData;
+        moviesList = results;
+        displayMovies(results);
+
+        displayTrending(results);
+    });
+
+//searchInput event EventListener
+searchInputEl.addEventListener("keydown", displaySearchMovie);
+//select Language Event Listener
+languageChangeSelectorEl.addEventListener("change", displaySelectedLanguageFilms);
+//select filterby Event Listener
+usersOptionEl.addEventListener("change", usersOption);
